@@ -1,4 +1,4 @@
-package com.eventify.platfom.shared.domain.aggregates;
+package com.eventify.platfom.shared.domain.model.aggregates;
 
 
 import jakarta.persistence.*;
