@@ -1,6 +1,7 @@
 package com.eventify.platfom.planning.application.internal.queryservices;
 
 import com.eventify.platfom.planning.domain.model.aggregates.Quote;
+import com.eventify.platfom.planning.domain.model.queries.ExistsByQuoteIdQuery;
 import com.eventify.platfom.planning.domain.model.queries.GetAllQuotesByHostIdQuery;
 import com.eventify.platfom.planning.domain.model.queries.GetAllQuotesByOrganizerIdQuery;
 import com.eventify.platfom.planning.domain.model.queries.GetQuoteByQuoteIdQuery;
@@ -31,5 +32,9 @@ public class QuoteQueryServiceImpl implements QuoteQueryService {
 
     public Optional<Quote> handle(GetQuoteByQuoteIdQuery query){
         return quoteRepository.findByQuoteId(query.quoteId());
+    }
+
+    public boolean handle(ExistsByQuoteIdQuery query){
+        return quoteRepository.existsByQuoteId(query.quoteId());
     }
 }
