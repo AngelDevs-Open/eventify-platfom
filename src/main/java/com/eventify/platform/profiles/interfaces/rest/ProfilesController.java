@@ -9,6 +9,7 @@ import com.eventify.platform.profiles.interfaces.rest.resources.CreateProfileRes
 import com.eventify.platform.profiles.interfaces.rest.resources.ProfileResource;
 import com.eventify.platform.profiles.interfaces.rest.transform.CreateProfileCommandFromResourceAssembler;
 import com.eventify.platform.profiles.interfaces.rest.transform.ProfileResourceFromEntityAssembler;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -46,6 +47,8 @@ public class ProfilesController {
      * @param createProfileResource CreateProfileResource with profile data
      * @return ProfileResource if successful, error message otherwise
      */
+    @Operation(summary = "Create New Profile",
+            description = "Creates a new profile with the provided data. Returns the created profile resource.")
     @PostMapping
     public ResponseEntity<?> createProfile(@RequestBody CreateProfileResource createProfileResource) {
         var createProfileCommand = CreateProfileCommandFromResourceAssembler.toCommandFromResource(createProfileResource);
@@ -65,6 +68,7 @@ public class ProfilesController {
      * @return ProfileResource if found, 404 otherwise
      */
     @GetMapping("/{profileId}")
+    @Operation(summary = "Get Profile by ID", description = "Retrieves a profile by its unique ID. Returns the profile resource if found.")
     public ResponseEntity<ProfileResource> getProfileById(@PathVariable Long profileId) {
         var getProfileByIdQuery = new GetProfileByIdQuery(profileId);
         var profile = profileQueryService.handle(getProfileByIdQuery);
@@ -80,6 +84,8 @@ public class ProfilesController {
      * @return ProfileResource if found, 404 otherwise
      */
     @GetMapping("/email/{email}")
+    @Operation(summary = "Get Profile by Email",
+            description = "Retrieves a profile by its email address. Returns the profile resource if found.")
     public ResponseEntity<ProfileResource> getProfileByEmail(@PathVariable String email) {
         var getProfileByEmailQuery = new GetProfileByEmailQuery(email);
         var profile = profileQueryService.handle(getProfileByEmailQuery);
@@ -93,6 +99,8 @@ public class ProfilesController {
      *
      * @return List of ProfileResource
      */
+    @Operation(summary = "Get All Profiles",
+            description = "Retrieves a list of all profiles. Returns a list of profile resources.")
     @GetMapping
     public ResponseEntity<List<ProfileResource>> getAllProfiles() {
         var getAllProfilesQuery = new GetAllProfilesQuery();
