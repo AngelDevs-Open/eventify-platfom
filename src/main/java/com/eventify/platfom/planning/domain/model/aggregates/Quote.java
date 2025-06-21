@@ -39,6 +39,7 @@ public class Quote extends AbstractAggregateRoot<Quote> {
     QuoteStatus state;
 
     @Getter
+    @Column(columnDefinition = "datetime")
     Date eventDate;
 
 
@@ -50,11 +51,11 @@ public class Quote extends AbstractAggregateRoot<Quote> {
     @AttributeOverride(name = "profileId", column = @Column(name = "host_profile_id"))
     HostId hostId;
 
-    @Column(nullable=false, updatable=false)
+    @Column(nullable=false, updatable=false,columnDefinition = "datetime")
     @CreatedDate
     Date createdAt;
 
-    @Column(nullable=false)
+    @Column(nullable=false, columnDefinition = "datetime")
     @LastModifiedDate
     Date updatedAt;
 
