@@ -28,11 +28,11 @@ public class Review extends AuditableAbstractAggregateRoot<Review> {
      */
     public Review () {}
 
-    public Review(CreateReviewCommand command){
+    public Review(CreateReviewCommand command, ProfileId profileId){
         this();
         this.content = command.content();
         this.rating = command.rating();
-        this.profileId = command.profileId();
+        this.profileId = profileId;
         this.socialEventId = command.socialEventId();
     }
 

@@ -17,7 +17,16 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
 
     @Override
     public Long handle(CreateReviewCommand command) {
-        var review = new Review(command);
+        // Fetch profile from an external service by full name
+        var profileId = externalProfileService.fetchProfileByFullName(command.fullName());
+        if (profileId.isEmpty()) {
+            throw new IllegalArgumentException("Profile with full name '" + command.fullName() + "' not found.");
+        }
+        // Fetch social event from an external service by social event name and date
+        // Put logic here
+
+
+        var review = new Review(command, profileId.get());
         try{
             reviewRepository.save(review);
         } catch (Exception e) {
