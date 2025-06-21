@@ -35,11 +35,11 @@ public class ServiceItem extends AbstractAggregateRoot<ServiceItem> {
     @Embedded
     QuoteId quoteId;
 
-    @Column(nullable=false, updatable=false)
+    @Column(nullable=false, updatable=false,columnDefinition = "datetime")
     @CreatedDate
     Date createdAt;
 
-    @Column(nullable=false)
+    @Column(nullable=false, columnDefinition = "datetime")
     @LastModifiedDate
     Date updatedAt;
 
