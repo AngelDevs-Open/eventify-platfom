@@ -1,4 +1,4 @@
-package com.eventify.platfom.operation.domain.model.valueobjects;
+package com.eventify.platform.operation.domain.model.valueobjects;
 
 public record SocialEventId(Long socialEventId) {
 

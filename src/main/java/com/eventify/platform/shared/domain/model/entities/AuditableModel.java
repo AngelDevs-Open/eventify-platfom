@@ -1,4 +1,4 @@
-package com.eventify.platfom.shared.domain.model.entities;
+package com.eventify.platform.shared.domain.model.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

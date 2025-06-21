@@ -1,7 +1,7 @@
-package com.eventify.platfom.operation.domain.model.commands;
+package com.eventify.platform.operation.domain.model.commands;
 
-import com.eventify.platfom.operation.domain.model.valueobjects.ProfileId;
-import com.eventify.platfom.operation.domain.model.valueobjects.SocialEventId;
+import com.eventify.platform.operation.domain.model.valueobjects.ProfileId;
+import com.eventify.platform.operation.domain.model.valueobjects.SocialEventId;
 
 public record CreateReviewCommand(String content, Integer rating, ProfileId profileId, SocialEventId socialEventId) {
     public CreateReviewCommand{

@@ -1,4 +1,4 @@
-package com.eventify.platfom.operation.domain.model.queries;
+package com.eventify.platform.operation.domain.model.queries;
 
 public record GetReviewByIdQuery(Long reviewId) {
     public GetReviewByIdQuery {
