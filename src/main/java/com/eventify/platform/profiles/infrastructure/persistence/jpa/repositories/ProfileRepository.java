@@ -50,4 +50,6 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
      * @return true if profile exists, false otherwise
      */
     boolean existsByEmail_Address(String emailAddress);
+
+    Optional<Profile> findByFullName(String fullName);
 }

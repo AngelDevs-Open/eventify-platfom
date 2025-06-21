@@ -4,6 +4,7 @@ import com.eventify.platform.profiles.domain.model.aggregates.Profile;
 import com.eventify.platform.profiles.domain.model.queries.GetAllProfilesQuery;
 import com.eventify.platform.profiles.domain.model.queries.GetProfileByEmailQuery;
 import com.eventify.platform.profiles.domain.model.queries.GetProfileByIdQuery;
+import com.eventify.platform.profiles.domain.model.queries.GetProfileByFullNameQuery;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,4 +43,12 @@ public interface ProfileQueryService {
      * @return Optional containing the profile if found
      */
     Optional<Profile> handle(GetProfileByEmailQuery query);
+
+    /**
+     * Handle GetProfileIdByFullNameQuery
+     *
+     * @param query GetProfileIdByFullNameQuery to handle
+     * @return Optional containing the profile if found
+     */
+    Optional<Profile> handle(GetProfileByFullNameQuery query);
 }

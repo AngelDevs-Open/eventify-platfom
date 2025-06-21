@@ -3,6 +3,7 @@ package com.eventify.platform.profiles.application.internal.queryservices;
 import com.eventify.platform.profiles.domain.model.aggregates.Profile;
 import com.eventify.platform.profiles.domain.model.queries.GetAllProfilesQuery;
 import com.eventify.platform.profiles.domain.model.queries.GetProfileByEmailQuery;
+import com.eventify.platform.profiles.domain.model.queries.GetProfileByFullNameQuery;
 import com.eventify.platform.profiles.domain.model.queries.GetProfileByIdQuery;
 import com.eventify.platform.profiles.domain.services.ProfileQueryService;
 import com.eventify.platform.profiles.infrastructure.persistence.jpa.repositories.ProfileRepository;
@@ -60,5 +61,10 @@ public class ProfileQueryServiceImpl implements ProfileQueryService {
     @Override
     public Optional<Profile> handle(GetProfileByEmailQuery query) {
         return profileRepository.findByEmail_Address(query.emailAddress());
+    }
+
+    @Override
+    public Optional<Profile> handle(GetProfileByFullNameQuery query) {
+        return profileRepository.findByFullName(query.fullName());
     }
 }

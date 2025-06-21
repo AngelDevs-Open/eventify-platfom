@@ -59,4 +59,13 @@ public interface ProfilesContextFacade {
      * @return Email address if profile exists, empty string otherwise
      */
     String fetchEmailByProfileId(Long profileId);
+
+
+    /**
+     * Get profile ID by full name
+     *
+     * @param fullName Full name of the person
+     * @return Profile ID if found, 0 otherwise
+     */
+    Long fetchProfileIdByFullName(String fullName);
 }

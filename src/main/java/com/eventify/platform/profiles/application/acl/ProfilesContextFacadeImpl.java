@@ -2,6 +2,7 @@ package com.eventify.platform.profiles.application.acl;
 
 import com.eventify.platform.profiles.domain.model.commands.CreateProfileCommand;
 import com.eventify.platform.profiles.domain.model.queries.GetProfileByEmailQuery;
+import com.eventify.platform.profiles.domain.model.queries.GetProfileByFullNameQuery;
 import com.eventify.platform.profiles.domain.model.queries.GetProfileByIdQuery;
 import com.eventify.platform.profiles.domain.services.ProfileCommandService;
 import com.eventify.platform.profiles.domain.services.ProfileQueryService;
@@ -98,5 +99,11 @@ public class ProfilesContextFacadeImpl implements ProfilesContextFacade {
         var getProfileByIdQuery = new GetProfileByIdQuery(profileId);
         var profile = profileQueryService.handle(getProfileByIdQuery);
         return profile.map(p -> p.getEmailAddress()).orElse("");
+    }
+
+    public Long fetchProfileIdByFullName(String fullName) {
+        var getProfileByFullNameQuery = new GetProfileByFullNameQuery(fullName);
+        var profile = profileQueryService.handle(getProfileByFullNameQuery);
+        return profile.isEmpty() ? Long.valueOf(0L) : profile.get().getId();
     }
 }
