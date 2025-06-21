@@ -36,5 +36,13 @@ public class Review extends AuditableAbstractAggregateRoot<Review> {
         this.socialEventId = command.socialEventId();
     }
 
+    public Long getProfileId() {
+        return this.profileId.profileId();
+    }
+
+    public Long getSocialEventId() {
+        return this.socialEventId.socialEventId();
+    }
+
 
 }
