@@ -1,6 +1,7 @@
 package com.eventify.platform.operation.domain.model.commands;
 
 import com.eventify.platform.operation.domain.model.valueobjects.ProfileId;
+import com.eventify.platform.operation.domain.model.valueobjects.ReviewRating;
 import com.eventify.platform.operation.domain.model.valueobjects.SocialEventId;
 
 public record CreateReviewCommand(String content, Integer rating, ProfileId profileId, SocialEventId socialEventId) {

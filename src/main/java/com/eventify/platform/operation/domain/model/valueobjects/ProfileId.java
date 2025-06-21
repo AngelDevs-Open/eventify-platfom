@@ -1,5 +1,8 @@
 package com.eventify.platform.operation.domain.model.valueobjects;
 
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public record ProfileId(Long profileId) {
 
     public ProfileId {

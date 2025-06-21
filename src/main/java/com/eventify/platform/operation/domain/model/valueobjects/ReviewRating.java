@@ -1,6 +1,6 @@
 package com.eventify.platform.operation.domain.model.valueobjects;
 
-public enum Rating {
+public enum ReviewRating {
     ONE,
     TWO,
     THREE,
