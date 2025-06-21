@@ -5,7 +5,9 @@ import com.eventify.platform.operation.domain.model.aggreagates.Review;
 import com.eventify.platform.operation.domain.model.commands.CreateReviewCommand;
 import com.eventify.platform.operation.domain.services.ReviewCommandService;
 import com.eventify.platform.operation.infrastructure.persistence.jpa.repositories.ReviewRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ReviewCommandServiceImpl implements ReviewCommandService {
     private final ReviewRepository reviewRepository;
     private final ExternalProfileService externalProfileService;

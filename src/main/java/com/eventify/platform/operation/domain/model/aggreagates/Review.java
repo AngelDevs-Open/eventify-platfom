@@ -10,12 +10,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;
 
+import java.util.Date;
+
 @Getter
 @Entity
 public class Review extends AuditableAbstractAggregateRoot<Review> {
 
     private String content;
     private Integer rating;
+    private String fullName;
+    private String socialEventName;
+    private String socialEventDate;
 
     @Embedded
     private ProfileId profileId;
@@ -32,8 +37,9 @@ public class Review extends AuditableAbstractAggregateRoot<Review> {
         this();
         this.content = command.content();
         this.rating = command.rating();
+        this.fullName = command.fullName();
+        this.socialEventName = command.socialEventName();
         this.profileId = profileId;
-        this.socialEventId = command.socialEventId();
     }
 
     public Long getProfileId() {
