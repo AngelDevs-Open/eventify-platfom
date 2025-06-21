@@ -1,4 +1,4 @@
-package com.eventify.platfom.shared.infrastructure.persistence.jpa.strategy;
+package com.eventify.platform.shared.infrastructure.persistence.jpa.strategy;
 
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
