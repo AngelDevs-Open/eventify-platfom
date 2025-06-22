@@ -1,4 +1,16 @@
 package com.eventify.platfom.SocialEvent.domain.model.valueobjects;
 
-public record SocialEventDate() {
+import java.time.LocalDate;
+
+public record SocialEventDate(LocalDate eventDate) {
+
+    public SocialEventDate {
+        if (eventDate == null) {
+            throw new IllegalArgumentException("Event date cannot be null");
+        }
+        if (eventDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Event date cannot be in the past");
+        }
+    }
+
 }
