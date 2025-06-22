@@ -1,4 +1,7 @@
 package com.eventify.platfom.SocialEvent.domain.model.commands;
 
-public record DeleteSocialEventCommand() {
+import java.util.List;
+
+public record DeleteSocialEventCommand(Long eventId) {
+
 }
