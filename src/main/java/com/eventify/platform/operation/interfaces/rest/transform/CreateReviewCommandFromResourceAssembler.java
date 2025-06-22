@@ -7,7 +7,8 @@ public class CreateReviewCommandFromResourceAssembler {
     public static CreateReviewCommand toCommandFromResource(CreateReviewResource resource) {
         return new CreateReviewCommand(
             resource.content(),
-            resource.fullName(),
+            resource.firstName(),
+            resource.lastName(),
             resource.socialEventName(),
             resource.socialEventDate(),
             resource.rating()

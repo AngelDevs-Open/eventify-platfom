@@ -64,8 +64,9 @@ public interface ProfilesContextFacade {
     /**
      * Get profile ID by full name
      *
-     * @param fullName Full name of the person
+     * @param firstName first name of the person
+     * @param lastName last name of the person
      * @return Profile ID if found, 0 otherwise
      */
-    Long fetchProfileIdByFullName(String fullName);
+    Long fetchProfileIdByFullName(String firstName, String lastName);
 }

@@ -101,8 +101,8 @@ public class ProfilesContextFacadeImpl implements ProfilesContextFacade {
         return profile.map(p -> p.getEmailAddress()).orElse("");
     }
 
-    public Long fetchProfileIdByFullName(String fullName) {
-        var getProfileByFullNameQuery = new GetProfileByFullNameQuery(fullName);
+    public Long fetchProfileIdByFullName(String firstName, String lastName) {
+        var getProfileByFullNameQuery = new GetProfileByFullNameQuery(firstName, lastName);
         var profile = profileQueryService.handle(getProfileByFullNameQuery);
         return profile.isEmpty() ? Long.valueOf(0L) : profile.get().getId();
     }

@@ -2,6 +2,7 @@ package com.eventify.platform.profiles.infrastructure.persistence.jpa.repositori
 
 import com.eventify.platform.profiles.domain.model.aggregates.Profile;
 import com.eventify.platform.profiles.domain.model.valueobjects.EmailAddress;
+import com.eventify.platform.profiles.domain.model.valueobjects.PersonName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -51,5 +52,5 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
      */
     boolean existsByEmail_Address(String emailAddress);
 
-    Optional<Profile> findByFullName(String fullName);
+    Optional<Profile> findByName_FirstNameAndName_LastName(String firstName, String lastName);
 }

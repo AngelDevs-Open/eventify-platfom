@@ -65,6 +65,6 @@ public class ProfileQueryServiceImpl implements ProfileQueryService {
 
     @Override
     public Optional<Profile> handle(GetProfileByFullNameQuery query) {
-        return profileRepository.findByFullName(query.fullName());
+        return profileRepository.findByName_FirstNameAndName_LastName(query.firstname(), query.lastName());
     }
 }

@@ -18,7 +18,8 @@ public class Review extends AuditableAbstractAggregateRoot<Review> {
 
     private String content;
     private Integer rating;
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private String socialEventName;
     private String socialEventDate;
 
@@ -37,7 +38,8 @@ public class Review extends AuditableAbstractAggregateRoot<Review> {
         this();
         this.content = command.content();
         this.rating = command.rating();
-        this.fullName = command.fullName();
+        this.firstName = command.firstName();
+        this.lastName = command.lastName();
         this.socialEventName = command.socialEventName();
         this.profileId = profileId;
     }
