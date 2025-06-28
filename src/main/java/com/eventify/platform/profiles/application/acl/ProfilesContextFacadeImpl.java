@@ -3,6 +3,7 @@ package com.eventify.platform.profiles.application.acl;
 import com.eventify.platform.profiles.domain.model.commands.CreateProfileCommand;
 import com.eventify.platform.profiles.domain.model.queries.GetProfileByEmailQuery;
 import com.eventify.platform.profiles.domain.model.queries.GetProfileByIdQuery;
+import com.eventify.platform.profiles.domain.model.valueobjects.ProfileType;
 import com.eventify.platform.profiles.domain.services.ProfileCommandService;
 import com.eventify.platform.profiles.domain.services.ProfileQueryService;
 import com.eventify.platform.profiles.interfaces.acl.ProfilesContextFacade;
@@ -42,8 +43,8 @@ public class ProfilesContextFacadeImpl implements ProfilesContextFacade {
      * @return Profile ID if created successfully, 0 otherwise
      */
     @Override
-    public Long createProfile(String firstName, String lastName, String email, String street, String number, String city, String postalCode, String country) {
-        var createProfileCommand = new CreateProfileCommand(firstName, lastName, email, street, number, city, postalCode, country);
+    public Long createProfile(String firstName, String lastName, String email, String street, String number, String city, String postalCode, String country, ProfileType type) {
+        var createProfileCommand = new CreateProfileCommand(firstName, lastName, email, street, number, city, postalCode, country, type);
         var profileId = profileCommandService.handle(createProfileCommand);
         return profileId.orElse(0L);
     }
@@ -57,8 +58,8 @@ public class ProfilesContextFacadeImpl implements ProfilesContextFacade {
      * @return Profile ID if created successfully, 0 otherwise
      */
     @Override
-    public Long createProfile(String firstName, String lastName, String email) {
-        return createProfile(firstName, lastName, email, null, null, null, null, null);
+    public Long createProfile(String firstName, String lastName, String email, ProfileType type) {
+        return createProfile(firstName, lastName, email, null, null, null, null, null,null);
     }
 
     /**
