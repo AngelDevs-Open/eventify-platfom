@@ -1,5 +1,7 @@
 package com.eventify.platform.profiles.interfaces.acl;
 
+import com.eventify.platform.profiles.domain.model.valueobjects.ProfileType;
+
 /**
  * ProfilesContextFacade
  *
@@ -22,9 +24,10 @@ public interface ProfilesContextFacade {
      * @param city City
      * @param postalCode Postal code
      * @param country Country
+     * @param type Profile type
      * @return Profile ID if created successfully, 0 otherwise
      */
-    Long createProfile(String firstName, String lastName, String email, String street, String number, String city, String postalCode, String country);
+    Long createProfile(String firstName, String lastName, String email, String street, String number, String city, String postalCode, String country, ProfileType type);
 
     /**
      * Create profile with minimal information
@@ -34,7 +37,7 @@ public interface ProfilesContextFacade {
      * @param email Email address
      * @return Profile ID if created successfully, 0 otherwise
      */
-    Long createProfile(String firstName, String lastName, String email);
+    Long createProfile(String firstName, String lastName, String email, ProfileType type);
 
     /**
      * Get profile ID by email address
