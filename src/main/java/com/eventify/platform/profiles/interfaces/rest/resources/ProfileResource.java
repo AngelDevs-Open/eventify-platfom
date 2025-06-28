@@ -18,6 +18,7 @@ package com.eventify.platform.profiles.interfaces.rest.resources;
  * @param postalCode Postal code
  * @param country Country
  * @param fullAddress Complete address as string
+ * @param type Profile type
  * @since 1.0
  */
 public record ProfileResource(
@@ -31,6 +32,7 @@ public record ProfileResource(
         String city,
         String postalCode,
         String country,
-        String fullAddress
+        String fullAddress,
+        String type
 ) {
 }
