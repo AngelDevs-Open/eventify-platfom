@@ -15,6 +15,7 @@ package com.eventify.platform.profiles.interfaces.rest.resources;
  * @param city City
  * @param postalCode Postal code
  * @param country Country
+ * @param type profile type
  * @since 1.0
  */
 public record CreateProfileResource(
@@ -25,6 +26,7 @@ public record CreateProfileResource(
         String number,
         String city,
         String postalCode,
-        String country
+        String country,
+        String type
 ) {
 }
