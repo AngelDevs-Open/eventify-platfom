@@ -38,8 +38,8 @@ public class OrganizerQuotesController {
             @ApiResponse(responseCode = "200", description = "Quotes retrieved successfully"),
             @ApiResponse(responseCode = "404", description = "Quotes not found")
     })
-    public ResponseEntity<List<QuoteResource>> getQuotesForOrganizerWithOrganizerId(@PathVariable String organizerId){
-        var profileId = new OrganizerId(organizerId);
+    public ResponseEntity<List<QuoteResource>> getQuotesForOrganizerWithOrganizerId(@PathVariable int organizerId){
+        var profileId = organizerId;
         var getAllQuotesByOrganizerId = new GetAllQuotesByOrganizerIdQuery(profileId);
         var quotes = quoteQueryService.handle(getAllQuotesByOrganizerId);
         var quoteResources = quotes.stream().map(QuoteResourceFromEntityAssembler::toResourceFromEntity).toList();

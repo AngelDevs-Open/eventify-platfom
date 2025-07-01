@@ -44,12 +44,13 @@ public class Quote extends AbstractAggregateRoot<Quote> {
 
 
 
-    @Embedded
-    @AttributeOverride(name = "profileId", column = @Column(name = "organizer_profile_id"))
-    OrganizerId organizerId;
-    @Embedded
-    @AttributeOverride(name = "profileId", column = @Column(name = "host_profile_id"))
-    HostId hostId;
+    @Getter
+    @AttributeOverride(name = "profileId", column = @Column(name = "organizer_id"))
+    int organizerId;
+
+    @Getter
+    @AttributeOverride(name = "profileId", column = @Column(name = "host_id"))
+    int hostId;
 
     @Column(nullable=false, updatable=false,columnDefinition = "datetime")
     @CreatedDate
@@ -105,13 +106,6 @@ public class Quote extends AbstractAggregateRoot<Quote> {
         return this.quoteId.quoteId();
     }
 
-    public String getOrganizerId(){
-        return this.organizerId.profileId();
-    }
-
-    public String getHostId(){
-        return this.hostId.profileId();
-    }
 
     public void accept(){
         this.state = QuoteStatus.ACCEPTED;

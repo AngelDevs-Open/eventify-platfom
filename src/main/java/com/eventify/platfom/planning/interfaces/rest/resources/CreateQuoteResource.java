@@ -2,7 +2,7 @@ package com.eventify.platfom.planning.interfaces.rest.resources;
 
 import java.util.Date;
 
-public record CreateQuoteResource(String title, String eventType, int guestQuantity, String location, double totalPrice, String state, Date eventDate, String organizerId, String hostId) {
+public record CreateQuoteResource(String title, String eventType, int guestQuantity, String location, double totalPrice, String state, Date eventDate, int organizerId, int hostId) {
     public CreateQuoteResource {
         if(title == null || title.isBlank()){
             throw new IllegalArgumentException("Title cannot be null or blank");
@@ -25,11 +25,11 @@ public record CreateQuoteResource(String title, String eventType, int guestQuant
         if(eventDate == null){
             throw new IllegalArgumentException("Event date cannot be null");
         }
-        if(organizerId == null){
-            throw new IllegalArgumentException("Organizer id cannot be null");
+        if(organizerId <= 0){
+            throw new IllegalArgumentException("Organizer id cannot be negative");
         }
-        if(hostId == null){
-            throw new IllegalArgumentException("Host id cannot be null");
+        if(hostId <= 0){
+            throw new IllegalArgumentException("Host id cannot be negative");
         }
     }
 }

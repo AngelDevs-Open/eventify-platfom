@@ -7,7 +7,7 @@ import com.eventify.platfom.planning.domain.model.valueobjects.QuoteStatus;
 
 import java.util.Date;
 
-public record CreateQuoteCommand(String title, EventType eventType, int guestQuantity, String location, double totalPrice, QuoteStatus state, Date eventDate, OrganizerId organizerId, HostId hostId) {
+public record CreateQuoteCommand(String title, EventType eventType, int guestQuantity, String location, double totalPrice, QuoteStatus state, Date eventDate, int organizerId, int hostId) {
     public CreateQuoteCommand{
         if(title == null || title.isBlank()){
             throw new IllegalArgumentException("Title cannot be null or blank");
@@ -30,11 +30,11 @@ public record CreateQuoteCommand(String title, EventType eventType, int guestQua
         if(eventDate == null){
             throw new IllegalArgumentException("Event date cannot be null");
         }
-        if(organizerId == null){
-            throw new IllegalArgumentException("Organizer id cannot be null");
+        if(organizerId <= 0){
+            throw new IllegalArgumentException("Organizer id cannot be negative");
         }
-        if(hostId == null){
-            throw new IllegalArgumentException("Host id cannot be null");
+        if(hostId <= 0){
+            throw new IllegalArgumentException("Host id cannot be negative");
         }
     }
 }
