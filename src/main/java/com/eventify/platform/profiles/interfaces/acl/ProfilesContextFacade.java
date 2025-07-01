@@ -62,4 +62,12 @@ public interface ProfilesContextFacade {
      * @return Email address if profile exists, empty string otherwise
      */
     String fetchEmailByProfileId(Long profileId);
+
+    /**
+     * Validate if a profile existent correspond to an organizer.
+     *
+     * @param profileId Profile identifier
+     * @return {@code true} if the profile type is ORGANIZER, {@code false} otherwise
+     */
+    boolean isOrganizerProfile(Long profileId);
 }
