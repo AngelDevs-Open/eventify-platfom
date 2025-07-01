@@ -100,4 +100,18 @@ public class ProfilesContextFacadeImpl implements ProfilesContextFacade {
         var profile = profileQueryService.handle(getProfileByIdQuery);
         return profile.map(p -> p.getEmailAddress()).orElse("");
     }
+
+    /**
+     * Check if a profile is of type ORGANIZER.
+     *
+     * @param profileId profile identifier
+     * @return {@code true} when the profile exists and is an organizer
+     */
+    @Override
+    public boolean isOrganizerProfile(Long profileId)
+    {
+        var getprofileByIdQuery = new GetProfileByIdQuery(profileId);
+        var profile = profileQueryService.handle(getprofileByIdQuery);
+        return profile.map(p->p.getType()== ProfileType.ORGANIZER).orElse(false);
+    }
 }
