@@ -1,4 +1,4 @@
-package com.eventify.platfom.SocialEvent.domain.model.valueobjects;
+package com.eventify.platform.SocialEvent.domain.model.valueobjects;
 
 import java.time.LocalDate;
 

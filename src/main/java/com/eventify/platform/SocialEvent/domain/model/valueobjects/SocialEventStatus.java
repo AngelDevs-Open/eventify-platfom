@@ -1,4 +1,4 @@
-package com.eventify.platfom.SocialEvent.domain.model.valueobjects;
+package com.eventify.platform.SocialEvent.domain.model.valueobjects;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
