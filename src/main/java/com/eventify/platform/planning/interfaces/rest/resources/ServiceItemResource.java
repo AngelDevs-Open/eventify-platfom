@@ -1,8 +1,8 @@
 package com.eventify.platform.planning.interfaces.rest.resources;
 
-public record ServiceItemResource(String serviceItemId, String description, int quantity, double unitPrice, double totalPrice, String quoteId) {
+public record ServiceItemResource(String id, String description, int quantity, double unitPrice, double totalPrice, String quoteId) {
     public ServiceItemResource{
-        if(serviceItemId == null || serviceItemId.isBlank()){
+        if(id == null || id.isBlank()){
             throw new IllegalArgumentException("serviceItemId cannot be null or empty");
         }
         if(description == null || description.isBlank()){

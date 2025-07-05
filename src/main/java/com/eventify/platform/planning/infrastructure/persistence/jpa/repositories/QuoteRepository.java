@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public interface  QuoteRepository extends JpaRepository<Quote, QuoteId> {
     Optional<Quote> findByQuoteId(QuoteId quoteId);
-    List<Quote> findAllByOrganizerId(int organizerId);
-    List<Quote> findAllByHostId(int hostId);
+    List<Quote> findAllByOrganizerId(Long organizerId);
+    List<Quote> findAllByHostId(Long hostId);
     boolean existsByTitle(String title);
 
     boolean existsByQuoteId(QuoteId quoteId);

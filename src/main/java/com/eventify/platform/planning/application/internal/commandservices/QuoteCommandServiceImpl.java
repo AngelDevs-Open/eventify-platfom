@@ -41,7 +41,6 @@ public class QuoteCommandServiceImpl implements QuoteCommandService {
 
     @Override
     public void handle(DeleteQuoteCommand command){
-        verifyIfQuoteExistsById(command.quoteId());
         try{
             quoteRepository.deleteById(command.quoteId());
         }catch(Exception e){

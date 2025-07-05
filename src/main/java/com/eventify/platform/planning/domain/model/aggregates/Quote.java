@@ -46,11 +46,11 @@ public class Quote extends AbstractAggregateRoot<Quote> {
 
     @Getter
     @AttributeOverride(name = "profileId", column = @Column(name = "organizer_id"))
-    int organizerId;
+    Long organizerId;
 
     @Getter
     @AttributeOverride(name = "profileId", column = @Column(name = "host_id"))
-    int hostId;
+    Long hostId;
 
     @Column(nullable=false, updatable=false,columnDefinition = "datetime")
     @CreatedDate

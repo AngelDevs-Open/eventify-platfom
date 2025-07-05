@@ -1,4 +1,4 @@
 package com.eventify.platform.planning.domain.model.queries;
 
-public record GetAllQuotesByHostIdQuery(int hostId) {
+public record GetAllQuotesByHostIdQuery(Long hostId) {
 }
