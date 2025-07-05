@@ -3,6 +3,7 @@ package com.eventify.platform.planning.interfaces.rest;
 import com.eventify.platform.planning.domain.model.commands.ConfirmQuoteCommand;
 import com.eventify.platform.planning.domain.model.commands.DeleteQuoteCommand;
 import com.eventify.platform.planning.domain.model.commands.RejectQuoteCommand;
+import com.eventify.platform.planning.domain.model.queries.ExistsByQuoteIdQuery;
 import com.eventify.platform.planning.domain.model.queries.GetQuoteByQuoteIdQuery;
 import com.eventify.platform.planning.domain.model.valueobjects.QuoteId;
 import com.eventify.platform.planning.domain.services.QuoteCommandService;
@@ -20,6 +21,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -56,13 +59,30 @@ public class QuotesController {
         return new ResponseEntity<>(quoteResource, HttpStatus.CREATED);
     }
 
+    @GetMapping("/{quoteId}")
+    @Operation(summary = "Get a quote by its id", description = "Get a quote by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Quote found"),
+            @ApiResponse(responseCode = "404", description = "Quote not found")
+    })
+    public ResponseEntity<QuoteResource> getQuoteById(@PathVariable("quoteId") String quoteId){
+        var _quoteId = new QuoteId(quoteId);
+        var existsByQuoteIdQuery = new ExistsByQuoteIdQuery(_quoteId);
+        if(!quoteQueryService.handle(existsByQuoteIdQuery)) return ResponseEntity.notFound().build();
+        var getQuoteByQuoteIdQuery = new GetQuoteByQuoteIdQuery(_quoteId);
+        var quote = quoteQueryService.handle(getQuoteByQuoteIdQuery);
+        var quoteResource = QuoteResourceFromEntityAssembler.toResourceFromEntity(quote.get());
+        return ResponseEntity.ok(quoteResource);
+    }
+
+
     @PutMapping("/{quoteId}")
     @Operation(summary = "Update a quote", description = "Update a quote")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Quote updated"),
             @ApiResponse(responseCode = "404", description = "Quote not found")
     })
-    public ResponseEntity<QuoteResource> updateQuote(@PathVariable String quoteId, UpdateQuoteResource resource){
+    public ResponseEntity<QuoteResource> updateQuote(@PathVariable String quoteId, @RequestBody UpdateQuoteResource resource){
         var updateQuoteCommand = UpdateQuoteCommandFromResourceAssembler.toCommandFromResource(quoteId,resource);
         var updatedQuote = quoteCommandService.handle(updateQuoteCommand);
         if(updatedQuote.isEmpty()) return ResponseEntity.notFound().build();
@@ -80,7 +100,7 @@ public class QuotesController {
     public ResponseEntity<?> deleteQuote(@PathVariable String quoteId){
         var deleteQuoteCommand = new DeleteQuoteCommand(new QuoteId(quoteId));
         quoteCommandService.handle(deleteQuoteCommand);
-        return ResponseEntity.ok("Quote deleted successfully");
+        return ResponseEntity.ok(Map.of("message", "Quote deleted successfully"));
     }
 
     @PostMapping("/{quoteId}/confirmations")

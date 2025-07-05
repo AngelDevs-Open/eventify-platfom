@@ -26,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/v1/quotes/{quoteId}/service-items", produces = APPLICATION_JSON_VALUE)
@@ -66,7 +67,7 @@ public class QuoteServiceItemsController {
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "404", description = "Quote not found")
     })
-    public ResponseEntity<ServiceItemResource> createServiceItem(@PathVariable String quoteId, CreateServiceItemResource resource){
+    public ResponseEntity<ServiceItemResource> createServiceItem(@PathVariable String quoteId, @RequestBody CreateServiceItemResource resource){
         var _quoteId = new QuoteId(quoteId);
         var existsByQuoteIdQuery = new ExistsByQuoteIdQuery(_quoteId);
         if(!quoteQueryService.handle(existsByQuoteIdQuery)) return ResponseEntity.notFound().build();
@@ -88,7 +89,7 @@ public class QuoteServiceItemsController {
             @ApiResponse(responseCode = "200", description = "service item updated"),
             @ApiResponse(responseCode = "404", description = "service item not found")
     })
-    public ResponseEntity<ServiceItemResource> updateServiceItem(@PathVariable String quoteId, @PathVariable String serviceItemId, UpdateServiceItemResource resource){
+    public ResponseEntity<ServiceItemResource> updateServiceItem(@PathVariable String quoteId, @PathVariable String serviceItemId, @RequestBody UpdateServiceItemResource resource){
         var _quoteId = new QuoteId(quoteId);
 
         var existsByQuoteIdQuery = new ExistsByQuoteIdQuery(_quoteId);
@@ -115,6 +116,6 @@ public class QuoteServiceItemsController {
         if(!quoteQueryService.handle(existsByQuoteIdQuery)) return ResponseEntity.badRequest().build();
         var deleteServiceItemCommand = new DeleteServiceItemCommand(new ServiceItemId(serviceItemId));
         serviceItemCommandService.handle(deleteServiceItemCommand);
-        return ResponseEntity.ok("Service item with given id successfully deleted");
+        return ResponseEntity.ok(Map.of("message","Service item with given id successfully deleted"));
     }
 }

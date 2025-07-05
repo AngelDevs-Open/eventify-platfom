@@ -2,7 +2,7 @@ package com.eventify.platform.planning.interfaces.rest.resources;
 
 import java.util.Date;
 
-public record CreateQuoteResource(String title, String eventType, int guestQuantity, String location, double totalPrice, String state, Date eventDate, int organizerId, int hostId) {
+public record CreateQuoteResource(String title, String eventType, int guestQuantity, String location, double totalPrice, String state, Date eventDate, Long organizerId, Long hostId) {
     public CreateQuoteResource {
         if(title == null || title.isBlank()){
             throw new IllegalArgumentException("Title cannot be null or blank");

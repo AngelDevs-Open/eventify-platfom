@@ -5,7 +5,7 @@ import com.eventify.platform.planning.domain.model.valueobjects.QuoteStatus;
 
 import java.util.Date;
 
-public record CreateQuoteCommand(String title, EventType eventType, int guestQuantity, String location, double totalPrice, QuoteStatus state, Date eventDate, int organizerId, int hostId) {
+public record CreateQuoteCommand(String title, EventType eventType, int guestQuantity, String location, double totalPrice, QuoteStatus state, Date eventDate, Long organizerId, Long hostId) {
     public CreateQuoteCommand{
         if(title == null || title.isBlank()){
             throw new IllegalArgumentException("Title cannot be null or blank");
