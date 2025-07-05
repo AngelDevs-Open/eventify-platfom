@@ -1,6 +1,6 @@
 package com.eventify.platform.planning.interfaces.rest;
 
-//import com.eventify.platform.planning.application.internal.outboundservices.acl.PlanningExternalProfileService;
+import com.eventify.platform.planning.application.internal.outboundservices.acl.PlanningExternalProfileService;
 import com.eventify.platform.planning.domain.model.queries.GetAllQuotesByOrganizerIdQuery;
 import com.eventify.platform.planning.domain.services.QuoteCommandService;
 import com.eventify.platform.planning.domain.services.QuoteQueryService;
@@ -26,12 +26,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class OrganizerQuotesController {
     private final QuoteCommandService quoteCommandService;
     private final QuoteQueryService  quoteQueryService;
-    //private final PlanningExternalProfileService planningExternalProfileService;
+    private final PlanningExternalProfileService planningExternalProfileService;
 
-    public OrganizerQuotesController(QuoteCommandService quoteCommandService, QuoteQueryService quoteQueryService /*,PlanningExternalProfileService planningExternalProfileService*/) {
+    public OrganizerQuotesController(QuoteCommandService quoteCommandService, QuoteQueryService quoteQueryService ,PlanningExternalProfileService planningExternalProfileService) {
         this.quoteCommandService = quoteCommandService;
         this.quoteQueryService = quoteQueryService;
-        //this.planningExternalProfileService = planningExternalProfileService;
+        this.planningExternalProfileService = planningExternalProfileService;
     }
 
     @GetMapping
@@ -42,19 +42,14 @@ public class OrganizerQuotesController {
     })
     public ResponseEntity<List<QuoteResource>> getQuotesForOrganizerWithOrganizerId(@PathVariable Long organizerId){
 
-        var getAllQuotesByOrganizerId = new GetAllQuotesByOrganizerIdQuery(organizerId);
-        var quotes = quoteQueryService.handle(getAllQuotesByOrganizerId);
-        var quoteResources = quotes.stream().map(QuoteResourceFromEntityAssembler::toResourceFromEntity).toList();
-        return ResponseEntity.ok(quoteResources);
-
-        /*if(planningExternalProfileService.verifyIfExistProfileById(organizerId)){
+        if(planningExternalProfileService.verifyIfExistProfileById(organizerId)){
             var getAllQuotesByOrganizerId = new GetAllQuotesByOrganizerIdQuery(organizerId);
             var quotes = quoteQueryService.handle(getAllQuotesByOrganizerId);
             var quoteResources = quotes.stream().map(QuoteResourceFromEntityAssembler::toResourceFromEntity).toList();
             return ResponseEntity.ok(quoteResources);
         }else {
             return ResponseEntity.notFound().build();
-        }*/
+        }
 
     }
 
