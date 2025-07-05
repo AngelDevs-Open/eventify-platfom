@@ -32,7 +32,8 @@ public class ProfileResourceFromEntityAssembler {
                 entity.getAddress().city(),
                 entity.getAddress().postalCode(),
                 entity.getAddress().country(),
-                entity.getStreetAddress()
+                entity.getStreetAddress(),
+                entity.getType().name()
         );
     }
 }

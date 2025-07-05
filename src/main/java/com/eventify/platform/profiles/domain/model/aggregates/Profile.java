@@ -3,6 +3,7 @@ package com.eventify.platform.profiles.domain.model.aggregates;
 import com.eventify.platform.profiles.domain.model.commands.CreateProfileCommand;
 import com.eventify.platform.profiles.domain.model.valueobjects.EmailAddress;
 import com.eventify.platform.profiles.domain.model.valueobjects.PersonName;
+import com.eventify.platform.profiles.domain.model.valueobjects.ProfileType;
 import com.eventify.platform.profiles.domain.model.valueobjects.StreetAddress;
 import com.eventify.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
@@ -35,6 +36,10 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
     })
     private EmailAddress email;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "profile_type", nullable = false, length = 20)
+    private ProfileType type;
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "street", column = @Column(name = "street_address", length = 255)),
@@ -60,6 +65,7 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
         this.email = new EmailAddress(command.email());
         this.address = new StreetAddress(command.street(), command.number(),
                 command.city(), command.postalCode(), command.country());
+        this.type = command.type();
     }
 
     /**
@@ -75,11 +81,13 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
      * @param country Country
      */
     public Profile(String firstName, String lastName, String email, String street,
-                   String number, String city, String postalCode, String country) {
+                   String number, String city, String postalCode, String country,
+                   ProfileType type) {
         this();
         this.name = new PersonName(firstName, lastName);
         this.email = new EmailAddress(email);
         this.address = new StreetAddress(street, number, city, postalCode, country);
+        this.type = type;
     }
 
     /**

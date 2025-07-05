@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.eventify</groupId>
-    <artifactId>platfom</artifactId>
+    <artifactId>platform</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>eventify-platform</name>
     <description>eventify-platform</description>
