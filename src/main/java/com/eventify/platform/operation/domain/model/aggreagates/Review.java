@@ -18,10 +18,8 @@ public class Review extends AuditableAbstractAggregateRoot<Review> {
 
     private String content;
     private Integer rating;
-    private String firstName;
-    private String lastName;
-    private String socialEventName;
-    private String socialEventDate;
+    private String fullName;
+    private Date socialEventDate;
 
     @Embedded
     private ProfileId profileId;
@@ -34,14 +32,13 @@ public class Review extends AuditableAbstractAggregateRoot<Review> {
      */
     public Review () {}
 
-    public Review(CreateReviewCommand command, ProfileId profileId){
+    public Review(CreateReviewCommand command){
         this();
         this.content = command.content();
         this.rating = command.rating();
-        this.firstName = command.firstName();
-        this.lastName = command.lastName();
-        this.socialEventName = command.socialEventName();
-        this.profileId = profileId;
+        this.fullName = command.fullName();
+        this.socialEventDate = command.socialEventDate();
+        this.profileId = new ProfileId(command.profileId());
     }
 
     public Long getProfileId() {
@@ -50,6 +47,25 @@ public class Review extends AuditableAbstractAggregateRoot<Review> {
 
     public Long getSocialEventId() {
         return this.socialEventId.socialEventId();
+    }
+
+    public Review updateInformation(String content, String fullName, Date socialEventDate, Integer rating, Long profileId){
+        if (content != null && !content.isBlank()) {
+            this.content = content;
+        }
+        if (fullName != null && !fullName.isBlank()) {
+            this.fullName = fullName;
+        }
+        if (socialEventDate != null) {
+            this.socialEventDate = socialEventDate;
+        }
+        if (rating != null && rating >= 1 && rating <= 5) {
+            this.rating = rating;
+        }
+        if (profileId != null) {
+            this.profileId = new ProfileId(profileId);
+        }
+        return this;
     }
 
 

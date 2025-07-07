@@ -14,9 +14,9 @@ public class ExternalProfileService {
         this.profilesContextFacade = profilesContextFacade;
     }
 
-    public Optional<ProfileId> fetchProfileByFullName(String firstName, String lastName) {
-        var profileId = profilesContextFacade.fetchProfileIdByFullName(firstName, lastName);
-        return profileId == 0L ? Optional.empty() : Optional.of(new ProfileId(profileId));
+    public Optional<String> fetchFullNameByProfileId(Long profileId) {
+        var fullName = profilesContextFacade.fetchFullNameByProfileId(profileId);
+        return fullName == null ? Optional.empty() : Optional.of(fullName);
     }
 
 

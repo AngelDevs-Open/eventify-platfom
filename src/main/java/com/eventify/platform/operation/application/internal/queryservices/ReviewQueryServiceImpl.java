@@ -3,6 +3,7 @@ package com.eventify.platform.operation.application.internal.queryservices;
 import com.eventify.platform.operation.domain.model.aggreagates.Review;
 import com.eventify.platform.operation.domain.model.queries.GetAllReviewsQuery;
 import com.eventify.platform.operation.domain.model.queries.GetReviewByIdQuery;
+import com.eventify.platform.operation.domain.model.queries.GetReviewByProfileIdQuery;
 import com.eventify.platform.operation.domain.services.ReviewQueryService;
 import com.eventify.platform.operation.infrastructure.persistence.jpa.repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
     public Optional<Review> handle(GetReviewByIdQuery query) {
         return reviewRepository.findById(query.reviewId());
     }
+
+    @Override
+    public Optional<Review> handle(GetReviewByProfileIdQuery query) { return reviewRepository.findByProfileId(query.profileId());}
 
     @Override
     public List<Review> handle(GetAllReviewsQuery query) {

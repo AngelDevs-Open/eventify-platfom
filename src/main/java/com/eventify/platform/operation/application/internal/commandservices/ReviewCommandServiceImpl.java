@@ -3,9 +3,12 @@ package com.eventify.platform.operation.application.internal.commandservices;
 import com.eventify.platform.operation.application.internal.outboundservices.acl.ExternalProfileService;
 import com.eventify.platform.operation.domain.model.aggreagates.Review;
 import com.eventify.platform.operation.domain.model.commands.CreateReviewCommand;
+import com.eventify.platform.operation.domain.model.commands.UpdateReviewCommand;
 import com.eventify.platform.operation.domain.services.ReviewCommandService;
 import com.eventify.platform.operation.infrastructure.persistence.jpa.repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ReviewCommandServiceImpl implements ReviewCommandService {
@@ -20,20 +23,37 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
     @Override
     public Long handle(CreateReviewCommand command) {
         // Fetch profile from an external service by full name
-        var profileId = externalProfileService.fetchProfileByFullName(command.firstName(), command.lastName());
-        if (profileId.isEmpty()) {
-            throw new IllegalArgumentException("Profile with full name '" + command.firstName() + " " + command.lastName() + "' not found.");
+        var fullName = externalProfileService.fetchFullNameByProfileId(command.profileId());
+        if (fullName.isEmpty()) {
+            throw new IllegalArgumentException("Profile not found with full name: " + command.fullName());
         }
         // Fetch social event from an external service by social event name and date
         // Put logic here
 
 
-        var review = new Review(command, profileId.get());
+        var review = new Review(command);
         try{
             reviewRepository.save(review);
         } catch (Exception e) {
             throw new RuntimeException("Failed to create review: " + e.getMessage(), e);
         }
         return review.getId();
+    }
+
+    @Override
+    public Optional<Review> handle(UpdateReviewCommand command) {
+        // Fetch the existing review by ID
+        var review = reviewRepository.findById(command.ReviewId());
+        if (review.isEmpty()) {
+            throw new IllegalArgumentException("Review not found with ID: " + command.ReviewId());
+        }
+        try {
+            var updatedReview = review.get();
+            updatedReview.updateInformation(command.content(), command.fullName(), command.socialEventDate(), command.rating(), command.profileId());
+            reviewRepository.save(updatedReview);
+            return Optional.of(updatedReview);
+        }catch (Exception e){
+            throw new RuntimeException("Failed to update review: " + e.getMessage(), e);
+        }
     }
 }
