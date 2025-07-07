@@ -1,13 +1,16 @@
 package com.eventify.platform.operation.interfaces.rest;
 
+import com.eventify.platform.operation.domain.model.commands.UpdateReviewCommand;
 import com.eventify.platform.operation.domain.model.queries.GetAllReviewsQuery;
 import com.eventify.platform.operation.domain.model.queries.GetReviewByIdQuery;
 import com.eventify.platform.operation.domain.services.ReviewCommandService;
 import com.eventify.platform.operation.domain.services.ReviewQueryService;
 import com.eventify.platform.operation.interfaces.rest.resources.CreateReviewResource;
 import com.eventify.platform.operation.interfaces.rest.resources.ReviewResource;
+import com.eventify.platform.operation.interfaces.rest.resources.UpdateReviewResource;
 import com.eventify.platform.operation.interfaces.rest.transform.CreateReviewCommandFromResourceAssembler;
 import com.eventify.platform.operation.interfaces.rest.transform.ReviewResourceFromEntityAssembler;
+import com.eventify.platform.operation.interfaces.rest.transform.UpdateReviewCommandFromResourceAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -76,6 +79,21 @@ public class ReviewsController {
                 .map(ReviewResourceFromEntityAssembler::toResourceFromEntity)
                 .toList();
         return ResponseEntity.ok(reviewResources);
+    }
+
+    @PutMapping("/{reviewId}")
+    @Operation(summary = "Update a review", description = "Update a review")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Review updated"),
+            @ApiResponse(responseCode = "400", description = "Bad request, invalid input"),
+            @ApiResponse(responseCode = "404", description = "Review not found")})
+    public ResponseEntity<ReviewResource> updateReview(@PathVariable Long reviewId, @RequestBody UpdateReviewResource resource) {
+        var updateReviewCommand = UpdateReviewCommandFromResourceAssembler.toCommandFromResource(reviewId, resource);
+        var updatedReview = reviewCommandService.handle(updateReviewCommand);
+        if (updatedReview.isEmpty()) return ResponseEntity.notFound().build();
+        var updatedReviewEntity = updatedReview.get();
+        var updatedReviewResource = ReviewResourceFromEntityAssembler.toResourceFromEntity(updatedReviewEntity);
+        return ResponseEntity.ok(updatedReviewResource);
     }
 
 }
