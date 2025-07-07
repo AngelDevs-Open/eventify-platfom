@@ -1,8 +1,11 @@
 package com.eventify.platform.operation.interfaces.rest;
 
 import com.eventify.platform.operation.domain.model.commands.UpdateReviewCommand;
+import com.eventify.platform.operation.domain.model.queries.ExistByProfileIdQuery;
 import com.eventify.platform.operation.domain.model.queries.GetAllReviewsQuery;
 import com.eventify.platform.operation.domain.model.queries.GetReviewByIdQuery;
+import com.eventify.platform.operation.domain.model.queries.GetReviewByProfileIdQuery;
+import com.eventify.platform.operation.domain.model.valueobjects.ProfileId;
 import com.eventify.platform.operation.domain.services.ReviewCommandService;
 import com.eventify.platform.operation.domain.services.ReviewQueryService;
 import com.eventify.platform.operation.interfaces.rest.resources.CreateReviewResource;
@@ -66,6 +69,22 @@ public class ReviewsController {
         var reviewResource = ReviewResourceFromEntityAssembler.toResourceFromEntity(reviewEntity);
         return ResponseEntity.ok(reviewResource);
     }
+
+    @GetMapping("/profile/{profileId}")
+    @Operation(summary = "Get reviews by profile id", description = "Get reviews by profile id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reviews found"),
+            @ApiResponse(responseCode = "404", description = "No reviews found")})
+    public ResponseEntity<List<ReviewResource>> getReviewsByProfileId(@PathVariable Long profileId) {
+        var assignedProfileId = new ProfileId(profileId);
+        var existByProfileIdQuery = new ExistByProfileIdQuery(assignedProfileId);
+        if (reviewQueryService.handle(existByProfileIdQuery)) return ResponseEntity.badRequest().build();
+        var getReviewByProfileIdQuery = new GetReviewByProfileIdQuery(assignedProfileId);
+        var reviews = reviewQueryService.handle(getReviewByProfileIdQuery);
+        var reviewResources = reviews.stream().map(ReviewResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(reviewResources);
+    }
+
 
     @GetMapping
     @Operation(summary = "Get all reviews", description = "Get all reviews")

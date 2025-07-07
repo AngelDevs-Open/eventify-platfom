@@ -1,6 +1,7 @@
 package com.eventify.platform.operation.application.internal.queryservices;
 
 import com.eventify.platform.operation.domain.model.aggreagates.Review;
+import com.eventify.platform.operation.domain.model.queries.ExistByProfileIdQuery;
 import com.eventify.platform.operation.domain.model.queries.GetAllReviewsQuery;
 import com.eventify.platform.operation.domain.model.queries.GetReviewByIdQuery;
 import com.eventify.platform.operation.domain.model.queries.GetReviewByProfileIdQuery;
@@ -31,4 +32,7 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
     public List<Review> handle(GetAllReviewsQuery query) {
         return reviewRepository.findAll();
     }
+
+    @Override
+    public boolean handle(ExistByProfileIdQuery query) { return reviewRepository.existsByProfileId(query.profileId());}
 }

@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Optional<Review> findByProfileId(ProfileId profileId);
+    boolean existsByProfileId(ProfileId profileId);
 }
