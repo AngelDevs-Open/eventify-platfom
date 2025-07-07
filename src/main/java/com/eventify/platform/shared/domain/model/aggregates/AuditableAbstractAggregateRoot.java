@@ -1,6 +1,6 @@
 package com.eventify.platform.shared.domain.model.aggregates;
 
-import com.eventify.platform.SocialEvent.domain.model.valueobjects.SocialEventStatus;
+import com.eventify.platform.planning.domain.model.valueobjects.SocialEventStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
