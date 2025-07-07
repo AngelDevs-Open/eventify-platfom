@@ -1,4 +1,4 @@
-package com.eventify.platform.SocialEvent.domain.model.valueobjects;
+package com.eventify.platform.planning.domain.model.valueobjects;
 
 
 public record CustomerName(String customerName) {

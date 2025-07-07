@@ -1,8 +1,8 @@
-package com.eventify.platform.SocialEvent.domain.model.aggregates;
+package com.eventify.platform.planning.domain.model.aggregates;
 
 
 
-import com.eventify.platform.SocialEvent.domain.model.valueobjects.*;
+import com.eventify.platform.planning.domain.model.valueobjects.*;
 import com.eventify.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
 
@@ -11,6 +11,7 @@ import jakarta.persistence.*;
 *
 */
 @Entity
+@Table(name = "social_events")
 public class SocialEvent extends AuditableAbstractAggregateRoot<SocialEvent>
 {
 
@@ -18,13 +19,13 @@ public class SocialEvent extends AuditableAbstractAggregateRoot<SocialEvent>
     private SocialEventTitle title;
 
     @Embedded
+    private SocialEventDate date;
+
+    @Embedded
     private CustomerName customerName;
 
     @Embedded
     private Place place;
-
-    @Embedded
-    private SocialEventDate date;
 
     @Embedded
     private SocialEventStatus status;
@@ -46,9 +47,9 @@ public class SocialEvent extends AuditableAbstractAggregateRoot<SocialEvent>
     public SocialEvent(SocialEventTitle title, Place place, SocialEventDate date,
                        CustomerName customerName, SocialEventStatus status) {
         this.title = title;
-        this.place = place;
         this.date = date;
         this.customerName = customerName;
+        this.place = place;
         this.status = status;
 
     }
@@ -96,10 +97,12 @@ public class SocialEvent extends AuditableAbstractAggregateRoot<SocialEvent>
      * @param newPlace new place
      * @param newDate  new date
      */
-    public void updateDetails(String newTitle, String newPlace, java.time.LocalDate newDate) {
+    public void updateDetails(String newTitle, java.time.LocalDate newDate, String newPlace, String newCustomerName ) {
         this.title = new SocialEventTitle(newTitle);
-        this.place = new Place(newPlace);
         this.date = new SocialEventDate(newDate);
+        this.customerName = new CustomerName(newCustomerName); // Assuming customer name remains unchanged
+        this.place = new Place(newPlace);
+
     }
 }
 

@@ -1,4 +1,4 @@
-package com.eventify.platform.SocialEvent.domain.model.valueobjects;
+package com.eventify.platform.planning.domain.model.valueobjects;
 
 
 public record SocialEventTitle(String title) {
@@ -11,7 +11,7 @@ public record SocialEventTitle(String title) {
      * @throws IllegalArgumentException if the socialEventTitle is null or empty
      */
     public SocialEventTitle {
-        if (title == null || title.isBlank()) {
+        if (title == null ) {
             throw new IllegalArgumentException("Social Event Title cannot be null or empty");
         }
     }
