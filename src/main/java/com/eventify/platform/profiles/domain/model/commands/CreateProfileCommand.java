@@ -1,5 +1,8 @@
 package com.eventify.platform.profiles.domain.model.commands;
 
+
+import com.eventify.platform.profiles.domain.model.valueobjects.ProfileType;
+
 /**
  * CreateProfileCommand
  *
@@ -15,6 +18,7 @@ package com.eventify.platform.profiles.domain.model.commands;
  * @param city City
  * @param postalCode Postal code
  * @param country Country
+ * @param type Profile type
  * @since 1.0
  */
 public record CreateProfileCommand(
@@ -25,7 +29,8 @@ public record CreateProfileCommand(
         String number,
         String city,
         String postalCode,
-        String country
+        String country,
+        ProfileType type
 ) {
     /**
      * Constructor with validation
@@ -38,6 +43,7 @@ public record CreateProfileCommand(
      * @param city City
      * @param postalCode Postal code
      * @param country Country
+     * @param type Profile type
      * @throws IllegalArgumentException if required fields are null or empty
      */
     public CreateProfileCommand {
@@ -49,6 +55,9 @@ public record CreateProfileCommand(
         }
         if (email == null || email.isBlank()) {
             throw new IllegalArgumentException("Email is required");
+        }
+        if (type == null) {
+            throw new IllegalArgumentException("Profile type is required");
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.eventify.platform.shared.domain.model.aggregates;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,6 +21,7 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 public class AuditableAbstractAggregateRoot<T extends AbstractAggregateRoot<T>> extends AbstractAggregateRoot<T> {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,7 +35,7 @@ public class AuditableAbstractAggregateRoot<T extends AbstractAggregateRoot<T>> 
     private Date updatedAt;
 
     /**
-     * Registers a domain event to be published.
+     * Register a domain event to be published.
      *
      * @param event the domain event to register
      */

@@ -2,6 +2,7 @@ package com.eventify.platform.profiles.interfaces.rest.transform;
 
 import com.eventify.platform.profiles.domain.model.commands.CreateProfileCommand;
 import com.eventify.platform.profiles.interfaces.rest.resources.CreateProfileResource;
+import com.eventify.platform.profiles.domain.model.valueobjects.ProfileType;
 
 /**
  * CreateProfileCommandFromResourceAssembler
@@ -29,7 +30,8 @@ public class CreateProfileCommandFromResourceAssembler {
                 resource.number(),
                 resource.city(),
                 resource.postalCode(),
-                resource.country()
+                resource.country(),
+                ProfileType.valueOf(resource.type())
         );
     }
 }
