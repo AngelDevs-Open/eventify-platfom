@@ -1,152 +1,112 @@
-# Getting Started 
+# Eventify Platform - Planning Bounded Context
 
-### Reference Documentation
+![Java](https://img.shields.io/badge/Java-17%2B-blue)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.1.4-green)
+![MySQL](https://img.shields.io/badge/MySQL-8.0%2B-orange)
 
-For further reference, please consider the following sections:
+## Summary
+The Planning Bounded Context is the core module for social event management in Eventify Platform, handling the complete lifecycle of social events from creation to completion. Designed following Domain-Driven Design (DDD) principles with Clean Architecture and CQRS pattern implementation.
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/3.5.0/maven-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.5.0/maven-plugin/build-image.html)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/3.5.0/reference/data/sql.html#data.sql.jpa-and-spring-data)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/3.5.0/reference/using/devtools.html)
-* [Validation](https://docs.spring.io/spring-boot/3.5.0/reference/io/validation.html)
-* [Spring Web](https://docs.spring.io/spring-boot/3.5.0/reference/web/servlet.html)
+## Key Features
+- **Event Lifecycle Management**: Full CRUD operations for social events
+- **State Management**: Four-state system (Active/To Confirm/Cancelled/Completed)
+- **Advanced Search**: Filter events by status, title, or organizer
+- **Batch Operations**: Bulk event deletion capabilities
+- **Temporal Planning**: Date validation ensuring future-dated events
+- **Location Management**: Structured address handling with validation
 
-### Guides
+## Technology Stack
+- **Core Framework**: Spring Boot 3.1.4
+- **Persistence**: Spring Data JPA + MySQL 8.0
+- **Validation**: Jakarta Bean Validation 3.0
+- **API Documentation**: Spring REST Docs
+- **Build Tool**: Maven
+- **Testing**: JUnit 5, Mockito, Testcontainers
 
-The following guides illustrate how to use some features concretely:
+## Getting Started
 
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
-* [Accessing data with MySQL](https://spring.io/guides/gs/accessing-data-mysql/)
-* [Validation](https://spring.io/guides/gs/validating-form-input/)
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
+### Prerequisites
+- Java 17+
+- MySQL 8.0+
+- Maven 3.6+
 
-### Maven Parent overrides
+### Installation
+```bash
+git clone https://github.com/AngelDevs-Open/eventify-platfom.git
+cd eventify-platfom
+mvn clean install
+```
 
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the
-parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
+### Configuration
+Create `application.properties` with:
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/eventify
+spring.datasource.username=root
+spring.datasource.password=your_password
+spring.jpa.hibernate.ddl-auto=update
+```
 
+## API Documentation
+### Core Endpoints
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST   | /api/events | Create new social event |
+| PUT    | /api/events/{id} | Update existing event |
+| DELETE | /api/events/{ids} | Delete single/multiple events |
+| GET    | /api/events?status={status} | Filter events by status |
 
-# Planning Bounded Context
+### Customer-specific Endpoints
+```
+GET /api/customers/{customerId}/events
+```
 
-The **Planning Bounded Context** is responsible for managing and planning social events within the Eventify platform. This context handles the complete lifecycle of social events, from creation to completion.
+## Data Model
+```java
+public class SocialEvent {
+    private UUID id;
+    private SocialEventTitle title;
+    private SocialEventDate eventDate;
+    private Place location;
+    private CustomerName organizer;
+    private SocialEventStatus status;
+    // Additional audit fields
+}
+```
 
-## Overview
+## Testing
+Preloaded test data includes:
+- 50+ sample events across categories:
+    - Weddings
+    - Corporate Events
+    - Birthday Parties
+    - Graduation Ceremonies
+- Multiple status combinations for testing transitions
 
-The Planning bounded context manages social events and their associated quotations. It currently includes Social Events management and Quotes.
+Run tests with:
+```bash
+mvn test
+```
 
-### Main Responsibilities:
-
-- Complete lifecycle management of social events
-- Event status control (Active, Pending, Cancelled, Completed)
-- Association of events with their organizers
-- Temporal and location planning of events
-- Integration with the quotation system
-
-## Architecture
-
-This context follows **Domain Driven Design (DDD)** and **Clean Architecture** principles, implementing the **CQRS (Command Query Responsibility Segregation)** pattern to separate write and read operations.
-
-The architecture is organized into four main layers:
-
-- **Domain Layer**: Contains business logic, aggregates, value objects, commands, and queries
-- **Application Layer**: Implements use cases through application services
-- **Infrastructure Layer**: Handles data persistence and external communication
-- **Interface Layer**: Exposes functionalities through REST APIs
-
-## Aggregates
-
-### SocialEvent
-
-`SocialEvent` is the main aggregate root of this bounded context. It represents a social event in the system and encapsulates all business logic related to event planning.
-
-**Main Attributes:**
-
-- Unique event identifier
-- Descriptive event title
-- Scheduled date for execution
-- Location where it will take place
-- Organizer client name
-- Current event status
-
-**Associated Value Objects:**
-
-- `SocialEventTitle`: Encapsulates the event title with corresponding validations
-- `SocialEventDate`: Manages the event date with business rules (cannot be in the past)
-- `Place`: Represents the event location
-- `CustomerName`: Organizer client name with validations
-- `SocialEventStatus`: Current event status
-- `StatusType`: Enumeration defining possible event states
-
-## Use Cases
-
-### Command Operations (Write)
-
-The system implements the following commands to modify event state:
-
-- **Create Social Event**: Allows registering a new event in the system with all its characteristics
-- **Update Event**: Modification of existing event details
-- **Delete Event**: Complete removal of an event from the system
-- **Delete Multiple Events**: Batch operation to remove several events
-- **Update Status**: Specific change of an event's status
-
-### Query Operations (Read)
-
-For information retrieval, the system offers the following queries:
-
-- **Get All Events**: Complete listing of events in the system
-- **Search by Status**: Event filtering according to their current status
-- **Search by Title**: Event location by complete or partial title
-- **Search by Organizer**: Retrieval of events associated with a specific client
-
-## REST API
-
-The bounded context exposes its functionalities through two main REST controllers:
-
-### SocialEventsController
-
-Main controller that handles basic CRUD operations on social events. Provides endpoints to create, read, update, and delete events, as well as specialized searches by status and title.
-
-### CustomerSocialEventsController
-
-Controller specialized in event management from the organizer client's perspective. Allows querying all events associated with a specific client.
-
-## Persistence Configuration
-
-The context uses **Spring Data JPA** with **MySQL** as the main database. The configuration implements the **Repository pattern** for data access, using Spring Data naming conventions to automatically generate queries.
-
-### Naming Strategy
-
-A naming strategy is used that converts embedded value object property names to appropriate database column names, following the `snake_case` pattern.
-
-## Event States
-
-The system manages four main states for social events:
-
-- **ACTIVE**: Confirmed event scheduled to take place
-- **TO_CONFIRM**: Event pending confirmation from the client
-- **CANCELLED**: Event cancelled for any reason
-- **COMPLETED**: Event successfully completed
-
-## Integration with Other Bounded Contexts
-
-This bounded context is designed to integrate seamlessly with other system contexts, particularly with the **Quotes** system that handles quotations associated with social events. The modular architecture allows different developers to work on different aggregates within the same context without interference.
-
-## Test Data
-
-The system includes a set of test data that loads automatically to facilitate development and testing. This data includes events of different types such as:
-
-- Baptisms
-- Birthdays
-- Weddings
-- Baby showers
-- Graduations
-
-Each with different states and organizers.
+## Contributing
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/your-feature`
+3. Commit changes: `git commit -m 'Add some feature'`
+4. Push to branch: `git push origin feature/your-feature`
+5. Open a Pull Request
 
 
+## **Authors**
+
+This project is maintained by the AngelDevs-Web team and contributors:
+
+|            **Alumno**            | **Codigo** |
+|:--------------------------------:|:----------:|
+| Fabrizio Alexander Cutiri Agüero | U201914181 |
+| Omar Christian Berrocal Ramirez  | U20201B529 |
+|  Deybbi Anderson Crisanto Calle  | U202120569 |
+|   July Zelmira Paico Calderon    | U20211D760 |
+|     Jean Pierr Aldave Aldave     | U202120005 |
+
+---
+
+**Built with ❤️ by AngelDevs-Web Team**
