@@ -44,7 +44,7 @@ public class ReviewsController {
             @ApiResponse(responseCode = "201", description = "Review created"),
             @ApiResponse(responseCode = "400", description = "Bad request, invalid input"),
             @ApiResponse(responseCode = "404", description = "Review not found")})
-    public ResponseEntity<ReviewResource> createReview(CreateReviewResource resource) {
+    public ResponseEntity<ReviewResource> createReview(@RequestBody CreateReviewResource resource) {
         var createReviewCommand = CreateReviewCommandFromResourceAssembler.toCommandFromResource(resource);
         var reviewId = reviewCommandService.handle(createReviewCommand);
         if( reviewId == null || reviewId == 0L) return ResponseEntity.badRequest().build();
